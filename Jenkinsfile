@@ -1,26 +1,17 @@
 pipeline {
-      agent any
-      stages {
-            stage('Init') {
-                  steps {
-                        echo 'Hi, Welcome to DevOps'
-                        echo 'We are Learning Jenkins'
-                  }
+    agent any
+    stages {
+        stage('Build Application') {
+            steps {
+                sh 'mvn pom.xml clean package'
             }
-            stage('Build') {
-                  steps {
-                        echo 'Building Sample Maven Project'
-                  }
+            post {
+                success {
+                    echo "Now Archiving the Artifacts...."
+                    archiveArtifacts artifacts: '**/*.war'
+                }
             }
-            stage('Deploy') {
-                  steps {
-                        echo "Deploying in Staging Area"
-                  }
-            }
-            stage('Deploy Production') {
-                  steps {
-                        echo "Deploying in Production Area"
-                  }
-            }
-      }
+        }
+    }
 }
+
