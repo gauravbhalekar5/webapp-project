@@ -13,7 +13,6 @@ job('First-Maven-Project-Via-DSL'){
     }
     publishers {
          archiveArtifacts ('**/*.war')
-         mailer('gauravbhalekar5@gmail.com', true, true)
     }
 	
 }
