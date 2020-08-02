@@ -3,26 +3,27 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                 git 'https://github.com/gauravbhalekar5/webapp-project.git'
+             git 'https://github.com/gauravbhalekar5/webapp-project.git'
             }
         }
-        stage('Application Build') {
+        stage('Build Application') {
             steps {
-                 sh "mvn clean package"
+               sh "mvn clean package"
             }
         }
-        stage('Deploy on Production Environment') {
+        stage('Deploy on Production') {
             steps {
-                 sshagent(['tomcat-deploy']) {
-                    sh """
-                    
-                    scp -o StrictHostKeyChecking=no target/*.war ec2-user@54.144.147.175:/opt/tomcat8/webapps
+                sshagent(['ssh-login']) {
+                  sh """
 
-                    ssh ec2-user@54.144.147.175 /opt/tomcat8/bin/shutdown.sh
+                  scp -o StrictHostKeyChecking=no target/*.war ec2-user@54.186.148.69:/opt/tomcat8/webapps
 
-                    ssh ec2-user@54.144.147.175 /opt/tomcat8/bin/startup.sh
-                      
-                    """
+                  ssh ec2-user@54.186.148.69 /opt/tomcat8/bin/shutdown.sh
+
+                  ssh ec2-user@54.186.148.69 /opt/tomcat8/bin/startup.sh
+
+                  """
+
                 }
             }
         }
