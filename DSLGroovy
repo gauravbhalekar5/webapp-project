@@ -1,0 +1,16 @@
+job('Project-vai-DSL') {
+    description('My first DSL job')
+    scm {
+        github('https://github.com/gauravbhalekar5/webapp-project.git','*/master')
+    }
+    triggers {
+        scm('* * * * *')
+    }
+    steps {
+        maven('clean package', 'pom.xml')
+    }
+    publishers {
+        archiveArtifacts ('**/*.war')
+    }
+
+}
